@@ -9230,7 +9230,7 @@ const totalFlows = await (0,_helpers_js__WEBPACK_IMPORTED_MODULE_1__/* .getTotal
 const fs = __nccwpck_require__(7147);
 // Set the output in a file
 fs.writeFileSync('result.txt', totalFlows);
-_actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput("Result", JSON.stringify(totalFlows, null, 0));
+// core.setOutput("Result",JSON.stringify(totalFlows, null, 0));
 //createIssue(config, totalFlows);
 
 __webpack_async_result__();
