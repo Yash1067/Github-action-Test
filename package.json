@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/claus-topholt-private/leapwork-github-action.git"
+    "url": "git+https://github.com/leapwork/Github-action.git"
   },
-  "author": "Claus Rosenkrantz Topholt",
+  "author": "Leapwork",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/claus-topholt-private/leapwork-github-action/issues"
+    "url": "https://github.com/leapwork/Github-action/issues"
   },
-  "homepage": "https://github.com/claus-topholt-private/leapwork-github-action#readme",
+  "homepage": "https://github.com/leapwork/Github-action#readme",
   "devDependencies": {
     "@types/node": "^20.5.7"
   },

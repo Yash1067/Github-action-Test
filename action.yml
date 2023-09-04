@@ -1,5 +1,5 @@
 name: 'GitHub Action for Leapwork'
-author: 'Claus Rosenkrantz Topholt'
+author: 'Leapwork'
 description: 'Run Leapwork as part of a CI/CD process as a GitHub Action.'
 
 runs:

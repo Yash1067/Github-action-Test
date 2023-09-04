@@ -22,8 +22,6 @@ const config: LeapworkConfig = {
 
 // Get schedule id from name in config.
 const scheduleId = await getScheduleId(config);
-console.log("Starting............................................");
-
 console.log("Found schedule '" + config.leapworkSchedule + "'.");
 
 // Wait for schedule to become ready for running.
@@ -46,6 +44,6 @@ console.log("Result:", failedCount, "failed run out of", totalCount);
 if (failedCount > 0) {
     console.log("Will create issue in GitHub.");
     const failedFlows = await getFailedRunItems(config, runId);
-   await createIssue(config, failedFlows);
+    createIssue(config, failedFlows);
 }
 

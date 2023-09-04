@@ -24,7 +24,7 @@ jobs:
           fetch-depth: 0
 
       - name: Call Leapwork GitHub Action
-        uses: claus-topholt-private/leapwork-github-action@v1.5
+        uses: leapwork/Github-action@v1.0
         with:
           leapworkApiUrl: ${{ vars.LEAPWORK_API_URL }}
           leapworkApiKey: ${{ secrets.LEAPWORK_API_KEY }}
@@ -44,4 +44,3 @@ and secret:
 * ````LEAPWORK_API_KEY```` - the API key to access the REST API, also referred to as the "Access Key"
 
 Once you commit a change in your repo, the Leapwork GitHub Action will execute, running the schedule on the Controller provided. If something fails, an issue will be created in GitHub with relevant details.
-# Github-action-Test

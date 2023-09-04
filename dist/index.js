@@ -16248,7 +16248,6 @@ const getFailedRunItems = async (config, runId) => {
             failedFlows.push({ flowTitle, flowStatus, flowElapsed });
         }
     }
-    console.log("Yash changes");
     console.log("Failed:", failedFlows);
     return failedFlows;
 };
@@ -16300,7 +16299,6 @@ const config = {
 // Get schedule id from name in config.
 const scheduleId = await (0,_helpers_js__WEBPACK_IMPORTED_MODULE_1__/* .getScheduleId */ .NM)(config);
 console.log("Found schedule '" + config.leapworkSchedule + "'.");
-console.log("Starting........................in index.js");
 // Wait for schedule to become ready for running.
 console.log("Waiting for schedule to become ready for running.");
 await (0,_helpers_js__WEBPACK_IMPORTED_MODULE_1__/* .waitForScheduleToBeFinished */ .lE)(config, scheduleId);
