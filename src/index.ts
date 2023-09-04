@@ -40,8 +40,6 @@ console.log("Result:", failedCount, "failed run out of", totalCount);
     const fs = require('fs');
 
     // Set the output in a file
-    fs.writeFileSync('result.txt', JSON.stringify(totalFlows, null, 0));
+    fs.writeFileSync('result.txt', JSON.stringify(totalFlows));
     
     
-
-

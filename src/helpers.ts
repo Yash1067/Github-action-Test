@@ -82,7 +82,7 @@ export const getTotalRunItems = async (config: any, runId: string): Promise<Arra
         const result2 = (await callLeapworkApi(config, "/v4/runItems/" + runItemId)) as any;
         
   
-        const flowId = result2.FlowInfo.flowId;
+        const flowId = result2.FlowInfo.FlowId;
         const flowTitle = result2.FlowInfo.FlowTitle;
         const flowStatus = result2.FlowInfo.Status;
         const flowElapsed = result2.Elapsed;
@@ -90,6 +90,6 @@ export const getTotalRunItems = async (config: any, runId: string): Promise<Arra
         flowInfoDetails.push({flowId, flowTitle, flowStatus, flowElapsed, runItemId })              
     }
     totalFlows.push({runId,flowInfo: flowInfoDetails});
-    console.log("Total Flows:", totalFlows);
+    console.log("Total Flows:", JSON.stringify(totalFlows));
     return totalFlows;
 }

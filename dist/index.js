@@ -9152,7 +9152,7 @@ const getTotalRunItems = async (config, runId) => {
     const totalFlows = [];
     for (const runItemId of runItemIds) {
         const result2 = (await callLeapworkApi(config, "/v4/runItems/" + runItemId));
-        const flowId = result2.FlowInfo.flowId;
+        const flowId = result2.FlowInfo.FlowId;
         const flowTitle = result2.FlowInfo.FlowTitle;
         const flowStatus = result2.FlowInfo.Status;
         const flowElapsed = result2.Elapsed;
@@ -9160,7 +9160,7 @@ const getTotalRunItems = async (config, runId) => {
         flowInfoDetails.push({ flowId, flowTitle, flowStatus, flowElapsed, runItemId });
     }
     totalFlows.push({ runId, flowInfo: flowInfoDetails });
-    console.log("Total Flows:", totalFlows);
+    console.log("Total Flows:", JSON.stringify(totalFlows));
     return totalFlows;
 };
 
@@ -9205,7 +9205,7 @@ console.log("Result:", failedCount, "failed run out of", totalCount);
 const totalFlows = await (0,_helpers_js__WEBPACK_IMPORTED_MODULE_1__/* .getTotalRunItems */ .oN)(config, runId);
 const fs = __nccwpck_require__(7147);
 // Set the output in a file
-fs.writeFileSync('result.txt', JSON.stringify(totalFlows, null, 0));
+fs.writeFileSync('result.txt', JSON.stringify(totalFlows));
 
 __webpack_async_result__();
 } catch(e) { __webpack_async_result__(e); } }, 1);
