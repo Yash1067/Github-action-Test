@@ -9148,6 +9148,7 @@ const getRun = async (config, runId) => {
 const getTotalRunItems = async (config, runId) => {
     const result1 = (await callLeapworkApi(config, "/v4/run/" + runId + "/runItemIds"));
     const runItemIds = result1.RunItemIds;
+    const flowInfoDetails = [];
     const totalFlows = [];
     for (const runItemId of runItemIds) {
         const result2 = (await callLeapworkApi(config, "/v4/runItems/" + runItemId));
@@ -9155,31 +9156,13 @@ const getTotalRunItems = async (config, runId) => {
         const flowTitle = result2.FlowInfo.FlowTitle;
         const flowStatus = result2.FlowInfo.Status;
         const flowElapsed = result2.Elapsed;
-        const runId = result2.RunId;
         console.log(flowTitle, "was", flowStatus);
-        totalFlows.push({ flowId, flowTitle, flowStatus, flowElapsed, runId });
+        flowInfoDetails.push({ flowId, flowTitle, flowStatus, flowElapsed, runItemId });
     }
+    totalFlows.push({ runId, flowInfo: flowInfoDetails });
     console.log("Total Flows:", totalFlows);
     return totalFlows;
 };
-/*export const createIssue = (config: any, failedFlows: FailedFlow[]) => {
-    // Create issue.
-    const octokit = github.getOctokit(config.GITHUB_TOKEN);
-    const actor = github.context.actor;
-    const event = github.context.eventName;
-    const message = github.context.payload.commits[0].message;
-    const commit = JSON.stringify(github.context);
-    const body = failedFlows.length + " failed flows:\n\n" +
-        failedFlows.map(f => { return "* " + f.flowTitle + " - " + f.flowStatus + " (" + f.flowElapsed + ")\n" }) +
-        "\n\n" +
-        "Caused by " + actor + " on " + event + " with message '" + message + "'.";
-    
-    octokit.rest.issues.create({
-        ...github.context.repo,
-        title: failedFlows.length + " failed flows, commit by " + actor,
-        body,
-    });
-}*/ 
 
 
 /***/ }),
@@ -9203,16 +9186,9 @@ const config = {
     leapworkApiKey: _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("leapworkApiKey", { required: true }),
     leapworkSchedule: _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('leapworkSchedule', { required: true })
 };
-// const config: LeapworkConfig = {
-//     GITHUB_TOKEN: '*',
-//     leapworkApiUrl: "http://20.224.212.55:9001/api",
-//     leapworkApiKey: "7kxxv6Q3E80TC2eC",
-//     leapworkSchedule: "babu"
-// }
 // Get schedule id from name in config.
 const scheduleId = await (0,_helpers_js__WEBPACK_IMPORTED_MODULE_1__/* .getScheduleId */ .NM)(config);
 console.log("Found schedule '" + config.leapworkSchedule + "'.");
-console.log("Starting with updated changes.................................................");
 // Wait for schedule to become ready for running.
 console.log("Waiting for schedule to become ready for running.");
 await (0,_helpers_js__WEBPACK_IMPORTED_MODULE_1__/* .waitForScheduleToBeFinished */ .lE)(config, scheduleId);
@@ -9230,8 +9206,6 @@ const totalFlows = await (0,_helpers_js__WEBPACK_IMPORTED_MODULE_1__/* .getTotal
 const fs = __nccwpck_require__(7147);
 // Set the output in a file
 fs.writeFileSync('result.txt', JSON.stringify(totalFlows, null, 0));
-// core.setOutput("Result",JSON.stringify(totalFlows, null, 0));
-//createIssue(config, totalFlows);
 
 __webpack_async_result__();
 } catch(e) { __webpack_async_result__(e); } }, 1);

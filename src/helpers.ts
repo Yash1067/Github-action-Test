@@ -9,12 +9,19 @@ export interface LeapworkConfig {
 }
 
 export interface TotalFlow {
+    runId: string,
+    flowInfo: FlowInfo[]
+}
+
+
+export interface FlowInfo {
     flowId: string,
     flowTitle: string,
     flowStatus: string,
     flowElapsed: string,
-    runId: string
+    runItemId: string
 }
+
 
 const sleep = (ms: number): Promise<any> => {
     return new Promise((resolve) => {
@@ -69,36 +76,20 @@ export const getRun = async (config: any, runId: string): Promise<[ number, numb
 export const getTotalRunItems = async (config: any, runId: string): Promise<Array<TotalFlow>> => {
     const result1 = (await callLeapworkApi(config, "/v4/run/" + runId + "/runItemIds")) as any;
     const runItemIds = result1.RunItemIds as any[];
+    const flowInfoDetails: FlowInfo[] = [];
     const totalFlows: TotalFlow[] = [];
     for (const runItemId of runItemIds) {
         const result2 = (await callLeapworkApi(config, "/v4/runItems/" + runItemId)) as any;
-        const flowId=result2.FlowInfo.flowId;
+        
+  
+        const flowId = result2.FlowInfo.flowId;
         const flowTitle = result2.FlowInfo.FlowTitle;
         const flowStatus = result2.FlowInfo.Status;
         const flowElapsed = result2.Elapsed;
-        const runId=result2.RunId;
         console.log(flowTitle, "was", flowStatus);
-        totalFlows.push({flowId, flowTitle, flowStatus, flowElapsed, runId });           
+        flowInfoDetails.push({flowId, flowTitle, flowStatus, flowElapsed, runItemId })              
     }
+    totalFlows.push({runId,flowInfo: flowInfoDetails});
     console.log("Total Flows:", totalFlows);
     return totalFlows;
 }
-
-/*export const createIssue = (config: any, failedFlows: FailedFlow[]) => {
-    // Create issue.
-    const octokit = github.getOctokit(config.GITHUB_TOKEN);
-    const actor = github.context.actor;
-    const event = github.context.eventName;
-    const message = github.context.payload.commits[0].message;
-    const commit = JSON.stringify(github.context);
-    const body = failedFlows.length + " failed flows:\n\n" +
-        failedFlows.map(f => { return "* " + f.flowTitle + " - " + f.flowStatus + " (" + f.flowElapsed + ")\n" }) +
-        "\n\n" +
-        "Caused by " + actor + " on " + event + " with message '" + message + "'.";
-    
-    octokit.rest.issues.create({
-        ...github.context.repo,
-        title: failedFlows.length + " failed flows, commit by " + actor,
-        body,
-    });
-}*/
