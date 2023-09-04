@@ -1,5 +1,5 @@
 import * as core from '@actions/core';
-import { createIssue, getFailedRunItems, getRun, getScheduleId, LeapworkConfig, runSchedule, waitForScheduleToBeFinished } from "./helpers.js";
+import { getTotalRunItems, getRun, getScheduleId, LeapworkConfig, runSchedule, waitForScheduleToBeFinished } from "./helpers.js";
 
 /*
  GitHub Action to run Leapwork Schedule.
@@ -23,7 +23,7 @@ const config: LeapworkConfig = {
 // Get schedule id from name in config.
 const scheduleId = await getScheduleId(config);
 console.log("Found schedule '" + config.leapworkSchedule + "'.");
-console.log("Starting with updated changes");
+console.log("Starting with updated changes.................................................");
 
 
 // Wait for schedule to become ready for running.
@@ -43,9 +43,9 @@ const [ failedCount, totalCount ] = await getRun(config, runId);
 console.log("Result:", failedCount, "failed run out of", totalCount);
 
 // If so, create issue with list of failed run items (test cases).
-if (failedCount > 0) {
-    console.log("Will create issue in GitHub.");
-    const failedFlows = await getFailedRunItems(config, runId);
-    createIssue(config, failedFlows);
-}
+
+    const totalFlows = await getTotalRunItems(config, runId);
+    core.setOutput("Result",totalFlows);
+    //createIssue(config, totalFlows);
+
 

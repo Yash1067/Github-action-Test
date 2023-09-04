@@ -8,10 +8,12 @@ export interface LeapworkConfig {
     leapworkSchedule: string
 }
 
-export interface FailedFlow {
+export interface TotalFlow {
+    flowId: string,
     flowTitle: string,
     flowStatus: string,
-    flowElapsed: string
+    flowElapsed: string,
+    runId: string
 }
 
 const sleep = (ms: number): Promise<any> => {
@@ -64,25 +66,25 @@ export const getRun = async (config: any, runId: string): Promise<[ number, numb
     return [ run.Failed, run.Total ];
 }
 
-export const getFailedRunItems = async (config: any, runId: string): Promise<Array<FailedFlow>> => {
-    const result1 = (await callLeapworkApi(config, "/v3/run/" + runId + "/runItemIds")) as any;
+export const getTotalRunItems = async (config: any, runId: string): Promise<Array<TotalFlow>> => {
+    const result1 = (await callLeapworkApi(config, "/v4/run/" + runId + "/runItemIds")) as any;
     const runItemIds = result1.RunItemIds as any[];
-    const failedFlows: FailedFlow[] = [];
+    const totalFlows: TotalFlow[] = [];
     for (const runItemId of runItemIds) {
         const result2 = (await callLeapworkApi(config, "/v4/runItems/" + runItemId)) as any;
+        const flowId=result2.FlowInfo.flowId;
         const flowTitle = result2.FlowInfo.FlowTitle;
         const flowStatus = result2.FlowInfo.Status;
         const flowElapsed = result2.Elapsed;
-        if (flowStatus != "Passed") {
-            console.log(flowTitle, "was", flowStatus);
-            failedFlows.push({ flowTitle, flowStatus, flowElapsed });
-        }
+        const runId=result2.RunId;
+        console.log(flowTitle, "was", flowStatus);
+        totalFlows.push({flowId, flowTitle, flowStatus, flowElapsed, runId });           
     }
-    console.log("Failed:", failedFlows);
-    return failedFlows;
+    console.log("Total Flows:", totalFlows);
+    return totalFlows;
 }
 
-export const createIssue = (config: any, failedFlows: FailedFlow[]) => {
+/*export const createIssue = (config: any, failedFlows: FailedFlow[]) => {
     // Create issue.
     const octokit = github.getOctokit(config.GITHUB_TOKEN);
     const actor = github.context.actor;
@@ -99,4 +101,4 @@ export const createIssue = (config: any, failedFlows: FailedFlow[]) => {
         title: failedFlows.length + " failed flows, commit by " + actor,
         body,
     });
-}
+}*/
