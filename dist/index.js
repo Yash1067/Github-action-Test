@@ -9227,7 +9227,7 @@ const [failedCount, totalCount] = await (0,_helpers_js__WEBPACK_IMPORTED_MODULE_
 console.log("Result:", failedCount, "failed run out of", totalCount);
 // If so, create issue with list of failed run items (test cases).
 const totalFlows = await (0,_helpers_js__WEBPACK_IMPORTED_MODULE_1__/* .getTotalRunItems */ .oN)(config, runId);
-_actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput("Result", totalFlows);
+_actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput("Result", JSON.stringify(totalFlows, null, 0));
 //createIssue(config, totalFlows);
 
 __webpack_async_result__();
