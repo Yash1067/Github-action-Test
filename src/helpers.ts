@@ -93,6 +93,8 @@ export const createIssue = (config: any, failedFlows: FailedFlow[]) => {
         failedFlows.map(f => { return "* " + f.flowTitle + " - " + f.flowStatus + " (" + f.flowElapsed + ")\n" }) +
         "\n\n" +
         "Caused by " + actor + " on " + event + " with message '" + message + "'.";
+        console.log("Hello");
+
     console.log("::set-output name=body::${body}");
     octokit.rest.issues.create({
         ...github.context.repo,
