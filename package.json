@@ -19,7 +19,8 @@
   },
   "homepage": "https://github.com/leapwork/Github-action#readme",
   "devDependencies": {
-    "@types/node": "^20.5.7"
+    "@types/node": "^20.5.7",
+    "typescript": "^5.2.2"
   },
   "type": "module",
   "dependencies": {
