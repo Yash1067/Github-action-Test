@@ -94,6 +94,9 @@ export const createIssue = (config: any, failedFlows: FailedFlow[]) => {
         "\n\n" +
         "Caused by " + actor + " on " + event + " with message '" + message + "'.";
     
+        console.log("Hello");
+
+    console.log("::set-output name=body::${body}");
     octokit.rest.issues.create({
         ...github.context.repo,
         title: failedFlows.length + " failed flows, commit by " + actor,
