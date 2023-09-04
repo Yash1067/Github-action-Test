@@ -21,7 +21,7 @@ const config: LeapworkConfig = {
 // }
 
 // Get schedule id from name in config.
-const scheduleId = await getScheduleId(config);
+/*const scheduleId = await getScheduleId(config);
 console.log("Found schedule '" + config.leapworkSchedule + "'.");
 console.log("Starting with updated changes.................................................");
 
@@ -40,11 +40,12 @@ await waitForScheduleToBeFinished(config, scheduleId);
 
 // Lookup run items and check if any are failed.
 const [ failedCount, totalCount ] = await getRun(config, runId);
-console.log("Result:", failedCount, "failed run out of", totalCount);
+console.log("Result:", failedCount, "failed run out of", totalCount);*/
 
 // If so, create issue with list of failed run items (test cases).
 
-    const totalFlows = await getTotalRunItems(config, runId);
-    core.setOutput("Result",JSON.stringify(totalFlows));
+    //const totalFlows = await getTotalRunItems(config, runId);
+    //core.setOutput("Result",JSON.stringify(totalFlows));
+    core.setOutput('Result','My name is Anthony Gonsalves');
 
 
