@@ -44,6 +44,6 @@ console.log("Result:", failedCount, "failed run out of", totalCount);
 if (failedCount > 0) {
     console.log("Will create issue in GitHub.");
     const failedFlows = await getFailedRunItems(config, runId);
-    createIssue(config, failedFlows);
+   await createIssue(config, failedFlows);
 }
 
