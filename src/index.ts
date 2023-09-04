@@ -38,8 +38,9 @@ console.log("Result:", failedCount, "failed run out of", totalCount);
 
     const totalFlows = await getTotalRunItems(config, runId);
     const fs = require('fs');
-
+    const fileName='result.json';
     // Set the output in a file
-    fs.writeFileSync('result.txt', JSON.stringify(totalFlows));
+    fs.writeFileSync(fileName, JSON.stringify(totalFlows));
+    core.setOutput('FileName',fileName);
     
     
