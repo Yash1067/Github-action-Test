@@ -16248,6 +16248,7 @@ const getFailedRunItems = async (config, runId) => {
             failedFlows.push({ flowTitle, flowStatus, flowElapsed });
         }
     }
+    console.log("Yash changes");
     console.log("Failed:", failedFlows);
     return failedFlows;
 };
