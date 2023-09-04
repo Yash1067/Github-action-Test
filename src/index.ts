@@ -22,6 +22,8 @@ const config: LeapworkConfig = {
 
 // Get schedule id from name in config.
 const scheduleId = await getScheduleId(config);
+console.log("Starting............................................");
+
 console.log("Found schedule '" + config.leapworkSchedule + "'.");
 
 // Wait for schedule to become ready for running.
