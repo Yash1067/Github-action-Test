@@ -9229,7 +9229,7 @@ console.log("Result:", failedCount, "failed run out of", totalCount);
 const totalFlows = await (0,_helpers_js__WEBPACK_IMPORTED_MODULE_1__/* .getTotalRunItems */ .oN)(config, runId);
 const fs = __nccwpck_require__(7147);
 // Set the output in a file
-fs.writeFileSync('result.txt', totalFlows);
+fs.writeFileSync('result.txt', JSON.stringify(totalFlows, null, 0));
 // core.setOutput("Result",JSON.stringify(totalFlows, null, 0));
 //createIssue(config, totalFlows);
 

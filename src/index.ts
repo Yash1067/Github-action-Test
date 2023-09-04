@@ -48,7 +48,7 @@ console.log("Result:", failedCount, "failed run out of", totalCount);
     const fs = require('fs');
 
     // Set the output in a file
-    fs.writeFileSync('result.txt', totalFlows);
+    fs.writeFileSync('result.txt', JSON.stringify(totalFlows, null, 0));
     
    // core.setOutput("Result",JSON.stringify(totalFlows, null, 0));
     //createIssue(config, totalFlows);
