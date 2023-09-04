@@ -84,6 +84,7 @@ export const getFailedRunItems = async (config: any, runId: string): Promise<Arr
 
 export const createIssue = (config: any, failedFlows: FailedFlow[]) => {
     // Create issue.
+     console.log("Failed:");
     const octokit = github.getOctokit(config.GITHUB_TOKEN);
     const actor = github.context.actor;
     const event = github.context.eventName;
