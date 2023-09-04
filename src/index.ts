@@ -45,7 +45,6 @@ console.log("Result:", failedCount, "failed run out of", totalCount);
 // If so, create issue with list of failed run items (test cases).
 
     const totalFlows = await getTotalRunItems(config, runId);
-    core.setOutput("Result",totalFlows);
-    //createIssue(config, totalFlows);
+    core.setOutput("Result",JSON.stringify(totalFlows));
 
 
