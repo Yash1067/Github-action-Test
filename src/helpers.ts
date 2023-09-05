@@ -1,5 +1,6 @@
 import fetch from "node-fetch";
-import * as github from '@actions/github';
+import * as artifact from '@actions/artifact';
+
 
 export interface LeapworkConfig {
     GITHUB_TOKEN: string,
@@ -91,4 +92,21 @@ export const getTotalRunItems = async (config: any, runId: string): Promise<Arra
     totalFlows.push({runId,flowInfo: flowInfoDetails});
     console.log("Total Flows:", JSON.stringify(totalFlows));
     return totalFlows;
+}
+export const createFile = async (totalFlows: string): Promise<string> => {
+    const fs = require('fs');
+    const fileName = 'result.json';
+    
+    fs.writeFileSync(fileName, totalFlows);
+    return fileName;
+}
+
+export const createArtifact = async(fileName: string)  => {
+    const client = artifact.create();
+    const name = 'leapwork-artifact';
+    const path = fileName; //'./';
+    const artifactName = `${name}-${Date.now()}`;
+
+    const uploadResponse = await client.uploadArtifact(artifactName, [path], '.');
+    console.log(`Artifact ${name} uploaded successfully with ID: ${uploadResponse.artifactName}`);   
 }

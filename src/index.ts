@@ -1,6 +1,5 @@
 import * as core from '@actions/core';
-import * as artifact from '@actions/artifact';
-import { getTotalRunItems, getRun, getScheduleId, LeapworkConfig, runSchedule, waitForScheduleToBeFinished } from "./helpers.js";
+import { createFile, createArtifact, getTotalRunItems, getRun, getScheduleId, LeapworkConfig, runSchedule, waitForScheduleToBeFinished } from "./helpers.js";
 
 /*
  GitHub Action to run Leapwork Schedule.
@@ -35,23 +34,13 @@ await waitForScheduleToBeFinished(config, scheduleId);
 const [ failedCount, totalCount ] = await getRun(config, runId);
 console.log("Result:", failedCount, "failed run out of", totalCount);
 
-// If so, create issue with list of failed run items (test cases).
+// Get Total Run Item Details
+const totalFlows = await getTotalRunItems(config, runId);
 
-    const totalFlows = await getTotalRunItems(config, runId);
-    const fs = require('fs');
-    const fileName='result.json';
-    // Set the output in a file
-    fs.writeFileSync(fileName, JSON.stringify(totalFlows));
-    core.setOutput('FileName',fileName);
+// Create Result.json File
+const fileName = await createFile(JSON.stringify(totalFlows));
 
-    const client = artifact.create();
-    const name = 'leapwork-artifact';
-    const path = fileName; //'./';
-    const artifactName = `${name}-${Date.now()}`;
-   // const files = [path]; // You can add multiple files here if needed
+core.setOutput('FileName',fileName);
 
-    const uploadResponse = await client.uploadArtifact(artifactName, [path], '.');
-
-    core.info(`Artifact ${name} uploaded successfully with ID: ${uploadResponse.artifactName}`);
-  
-    
+// Create leapwork artifact
+await createArtifact(fileName);   

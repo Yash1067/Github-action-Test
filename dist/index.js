@@ -13729,6 +13729,8 @@ function wrappy (fn, cb) {
 
 // EXPORTS
 __nccwpck_require__.d(__webpack_exports__, {
+  "y4": () => (/* binding */ createArtifact),
+  "cn": () => (/* binding */ createFile),
   "aE": () => (/* binding */ getRun),
   "NM": () => (/* binding */ getScheduleId),
   "oN": () => (/* binding */ getTotalRunItems),
@@ -15883,7 +15885,10 @@ function fixResponseChunkedTransferBadEnding(request, errorCallback) {
 	});
 }
 
+// EXTERNAL MODULE: ./node_modules/@actions/artifact/lib/artifact-client.js
+var artifact_client = __nccwpck_require__(8162);
 ;// CONCATENATED MODULE: ./src/helpers.ts
+
 
 const sleep = (ms) => {
     return new Promise((resolve) => {
@@ -15948,6 +15953,20 @@ const getTotalRunItems = async (config, runId) => {
     console.log("Total Flows:", JSON.stringify(totalFlows));
     return totalFlows;
 };
+const createFile = async (totalFlows) => {
+    const fs = __nccwpck_require__(7147);
+    const fileName = 'result.json';
+    fs.writeFileSync(fileName, totalFlows);
+    return fileName;
+};
+const createArtifact = async (fileName) => {
+    const client = artifact_client/* create */.U();
+    const name = 'leapwork-artifact';
+    const path = fileName; //'./';
+    const artifactName = `${name}-${Date.now()}`;
+    const uploadResponse = await client.uploadArtifact(artifactName, [path], '.');
+    console.log(`Artifact ${name} uploaded successfully with ID: ${uploadResponse.artifactName}`);
+};
 
 
 /***/ }),
@@ -15958,9 +15977,7 @@ const getTotalRunItems = async (config, runId) => {
 __nccwpck_require__.a(module, async (__webpack_handle_async_dependencies__, __webpack_async_result__) => { try {
 /* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(2722);
 /* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__nccwpck_require__.n(_actions_core__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _actions_artifact__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(8162);
-/* harmony import */ var _helpers_js__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(7218);
-
+/* harmony import */ var _helpers_js__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(7218);
 
 
 /*
@@ -15974,34 +15991,27 @@ const config = {
     leapworkSchedule: _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('leapworkSchedule', { required: true })
 };
 // Get schedule id from name in config.
-const scheduleId = await (0,_helpers_js__WEBPACK_IMPORTED_MODULE_2__/* .getScheduleId */ .NM)(config);
+const scheduleId = await (0,_helpers_js__WEBPACK_IMPORTED_MODULE_1__/* .getScheduleId */ .NM)(config);
 console.log("Found schedule '" + config.leapworkSchedule + "'.");
 // Wait for schedule to become ready for running.
 console.log("Waiting for schedule to become ready for running.");
-await (0,_helpers_js__WEBPACK_IMPORTED_MODULE_2__/* .waitForScheduleToBeFinished */ .lE)(config, scheduleId);
+await (0,_helpers_js__WEBPACK_IMPORTED_MODULE_1__/* .waitForScheduleToBeFinished */ .lE)(config, scheduleId);
 // Run schedule.
 console.log("Running schedule.");
-const runId = await (0,_helpers_js__WEBPACK_IMPORTED_MODULE_2__/* .runSchedule */ .Qe)(config, scheduleId);
+const runId = await (0,_helpers_js__WEBPACK_IMPORTED_MODULE_1__/* .runSchedule */ .Qe)(config, scheduleId);
 // Wait for schedule to complete.
 console.log("Waiting for run to complete.");
-await (0,_helpers_js__WEBPACK_IMPORTED_MODULE_2__/* .waitForScheduleToBeFinished */ .lE)(config, scheduleId);
+await (0,_helpers_js__WEBPACK_IMPORTED_MODULE_1__/* .waitForScheduleToBeFinished */ .lE)(config, scheduleId);
 // Lookup run items and check if any are failed.
-const [failedCount, totalCount] = await (0,_helpers_js__WEBPACK_IMPORTED_MODULE_2__/* .getRun */ .aE)(config, runId);
+const [failedCount, totalCount] = await (0,_helpers_js__WEBPACK_IMPORTED_MODULE_1__/* .getRun */ .aE)(config, runId);
 console.log("Result:", failedCount, "failed run out of", totalCount);
-// If so, create issue with list of failed run items (test cases).
-const totalFlows = await (0,_helpers_js__WEBPACK_IMPORTED_MODULE_2__/* .getTotalRunItems */ .oN)(config, runId);
-const fs = __nccwpck_require__(7147);
-const fileName = 'result.json';
-// Set the output in a file
-fs.writeFileSync(fileName, JSON.stringify(totalFlows));
+// Get Total Run Item Details
+const totalFlows = await (0,_helpers_js__WEBPACK_IMPORTED_MODULE_1__/* .getTotalRunItems */ .oN)(config, runId);
+// Create Result.json File
+const fileName = await (0,_helpers_js__WEBPACK_IMPORTED_MODULE_1__/* .createFile */ .cn)(JSON.stringify(totalFlows));
 _actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput('FileName', fileName);
-const client = _actions_artifact__WEBPACK_IMPORTED_MODULE_1__/* .create */ .U();
-const name = 'leapwork-artifact';
-const path = fileName; //'./';
-const artifactName = `${name}-${Date.now()}`;
-// const files = [path]; // You can add multiple files here if needed
-const uploadResponse = await client.uploadArtifact(artifactName, [path], '.');
-_actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Artifact ${name} uploaded successfully with ID: ${uploadResponse.artifactName}`);
+// Create leapwork artifact
+await (0,_helpers_js__WEBPACK_IMPORTED_MODULE_1__/* .createArtifact */ .y4)(fileName);
 
 __webpack_async_result__();
 } catch(e) { __webpack_async_result__(e); } }, 1);
