@@ -15997,10 +15997,10 @@ fs.writeFileSync(fileName, JSON.stringify(totalFlows));
 _actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput('FileName', fileName);
 const client = _actions_artifact__WEBPACK_IMPORTED_MODULE_1__/* .create */ .U();
 const name = 'leapwork-artifact';
-const path = fileName;
+const path = fileName; //'./';
 const artifactName = `${name}-${Date.now()}`;
-const files = [path]; // You can add multiple files here if needed
-const uploadResponse = await client.uploadArtifact(artifactName, files, path);
+// const files = [path]; // You can add multiple files here if needed
+const uploadResponse = await client.uploadArtifact(artifactName, [path], '.');
 _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Artifact ${name} uploaded successfully with ID: ${uploadResponse.artifactName}`);
 
 __webpack_async_result__();

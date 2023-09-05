@@ -46,11 +46,11 @@ console.log("Result:", failedCount, "failed run out of", totalCount);
 
     const client = artifact.create();
     const name = 'leapwork-artifact';
-    const path = fileName;
+    const path = fileName; //'./';
     const artifactName = `${name}-${Date.now()}`;
-    const files = [path]; // You can add multiple files here if needed
+   // const files = [path]; // You can add multiple files here if needed
 
-    const uploadResponse = await client.uploadArtifact(artifactName, files, path);
+    const uploadResponse = await client.uploadArtifact(artifactName, [path], '.');
 
     core.info(`Artifact ${name} uploaded successfully with ID: ${uploadResponse.artifactName}`);
   
