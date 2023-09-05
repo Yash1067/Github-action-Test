@@ -1,4 +1,5 @@
 import * as core from '@actions/core';
+import * as artifact from '@actions/artifact';
 import { getTotalRunItems, getRun, getScheduleId, LeapworkConfig, runSchedule, waitForScheduleToBeFinished } from "./helpers.js";
 
 /*
@@ -42,5 +43,15 @@ console.log("Result:", failedCount, "failed run out of", totalCount);
     // Set the output in a file
     fs.writeFileSync(fileName, JSON.stringify(totalFlows));
     core.setOutput('FileName',fileName);
-    
+
+    const client = artifact.create();
+    const name = 'leapwork-artifact';
+    const path = fileName;
+    const artifactName = `${name}-${Date.now()}`;
+    const files = [path]; // You can add multiple files here if needed
+
+    const uploadResponse = await client.uploadArtifact(artifactName, files, path);
+
+    core.info(`Artifact ${name} uploaded successfully with ID: ${uploadResponse.artifactName}`);
+  
     

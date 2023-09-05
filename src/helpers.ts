@@ -80,8 +80,7 @@ export const getTotalRunItems = async (config: any, runId: string): Promise<Arra
     const totalFlows: TotalFlow[] = [];
     for (const runItemId of runItemIds) {
         const result2 = (await callLeapworkApi(config, "/v4/runItems/" + runItemId)) as any;
-        
-  
+         
         const flowId = result2.FlowInfo.FlowId;
         const flowTitle = result2.FlowInfo.FlowTitle;
         const flowStatus = result2.FlowInfo.Status;
